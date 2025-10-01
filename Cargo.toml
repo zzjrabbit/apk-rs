@@ -2,6 +2,12 @@
 name = "apk_rs"
 version = "0.1.0"
 edition = "2024"
+authors = ["Zhenjia Zeng"]
+description = "A simple new implementation of apk"
+keywords = ["alpine", "apk"]
+license = "Apache-2.0"
+repository = "https://github.com/zzjrabbit/apk-rs"
+homepage = "https://github.com/zzjrabbit/apk-rs"
 
 [dependencies]
 anyhow = "1.0.100"
