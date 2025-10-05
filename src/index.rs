@@ -68,10 +68,10 @@ impl PackageInfo {
                 );
             }
 
-            if package.is_some() && version.is_some() {
+            if let Some(package) = package.as_ref() && let Some(version) = version.as_ref() {
                 break Ok(Some(Self {
-                    name: package.unwrap(),
-                    version: version.unwrap(),
+                    name: package.clone(),
+                    version: version.clone(),
                 }));
             }
         }

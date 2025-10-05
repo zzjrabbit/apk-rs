@@ -40,7 +40,7 @@ fn main() {
         );
     }
 
-    let index = PathBuf::from(apk_index_path.join("APKINDEX"));
+    let index = apk_index_path.join("APKINDEX");
     let index_file = File::open(&index).unwrap();
 
     let package_index = PackageIndex::new(BufReader::new(index_file)).unwrap();
@@ -48,7 +48,7 @@ fn main() {
     let _ = fs::create_dir(&image_dest);
 
     let mut files = BTreeMap::new();
-    
+
     let data = config
         .package
         .list
@@ -101,6 +101,19 @@ fn main() {
         files.extend(sub_files);
     }
 
+    if let Some(cfiles) = config.files {
+        for file in cfiles {
+            let source = PathBuf::from(file.source);
+            let dest = file.dest;
+
+            if fs::exists(source.clone()).is_err() {
+                continue;
+            }
+
+            files.insert(dest, source);
+        }
+    }
+
     println!("files: {:?}", files);
 
     if let Some(image) = config.image {
@@ -114,7 +127,7 @@ fn main() {
             if let Some(parent) = dest.parent() {
                 std::fs::create_dir_all(parent).unwrap();
             }
-            
+
             println!("source: {:?} dest: {:?}", source.display(), dest.display());
 
             let source = File::open(source).unwrap();

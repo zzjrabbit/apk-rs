@@ -1,6 +1,6 @@
 [package]
 name = "apk_rs"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 authors = ["Zhenjia Zeng"]
 description = "A simple new implementation of apk"
@@ -11,7 +11,7 @@ homepage = "https://github.com/zzjrabbit/apk-rs"
 
 [dependencies]
 anyhow = "1.0.100"
-fatfs = "0.3.6"
+fatfs = { git = "https://github.com/rafalh/rust-fatfs.git" }
 flate2 = "1.1.2"
 gpt = "4.1.0"
 path-slash = "0.2.1"

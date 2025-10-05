@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use fatfs::{FileSystem, FormatVolumeOptions, FsOptions, format_volume};
+use fatfs::{FileSystem, FormatVolumeOptions, FsOptions, StdIoWrapper, format_volume};
 use gpt::GptConfig;
 use gpt::disk::LogicalBlockSize;
 use gpt::mbr::ProtectiveMBR;
@@ -38,7 +38,10 @@ fn create_fat(files: &Files, out_path: &Path) -> Result<()> {
         + ADDITIONAL_SPACE;
     fat_file.set_len(total_size)?;
 
-    format_volume(&fat_file, FormatVolumeOptions::new())?;
+    format_volume(
+        &mut StdIoWrapper::new(&fat_file),
+        FormatVolumeOptions::new(),
+    )?;
     let filesystem = FileSystem::new(&fat_file, FsOptions::new())
         .context("Failed to open FAT file system of UEFI FAT file")?;
 
